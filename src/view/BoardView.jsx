@@ -1,49 +1,81 @@
 import React from 'react';
 
 const BoardView = ({ model, boardState, onCellClick, tableData }) => {
-  const rows = model.rows;
-  const cols = model.boardSize;
+  const columnLabels = ['P', 'Q', 'R', 'S'];
+  const rowLabels = ['1', '2'];
 
   return (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 60px)` }}>
-        {model.xLabels.map((label, i) => (
-          <div key={i} style={{ fontWeight: 'bold', textAlign: 'center' }}>{label}</div>
-        ))}
-        {Array.from({ length: rows * cols }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => onCellClick(i)}
-            disabled={boardState[i]?.disabled}
-            style={{
-              width: 60,
-              height: 60,
-              margin: 2,
-              backgroundColor: boardState[i]?.disabled ? '#add8e6' : '#fff',
-              fontSize: 18,
-            }}
-          >
-            {boardState[i]?.text || "?"}
-          </button>
+    <div style={{ padding: 20 }}>
+      <h2>Draw Board</h2>
+
+      {/* Column Headers */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '40px repeat(4, 80px)',
+        marginBottom: '10px',
+        alignItems: 'center',
+      }}>
+        <div></div> {/* Empty top-left cell */}
+        {columnLabels.map((col, idx) => (
+          <div key={idx} style={{ textAlign: 'center', fontWeight: 'bold' }}>{col}</div>
         ))}
       </div>
 
-      <table border="1" style={{ width: "100%", marginTop: 20 }}>
-        <thead>
+      {/* Grid Rows with Row Labels */}
+      <div style={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
+        {rowLabels.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '40px repeat(4, 80px)',
+              gap: '10px',
+              alignItems: 'center',
+              marginBottom: '10px',
+            }}
+          >
+            <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{row}</div>
+            {boardState.slice(rowIndex * 4, rowIndex * 4 + 4).map((value, colIndex) => {
+              const idx = rowIndex * 4 + colIndex;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => onCellClick(idx)}
+                  disabled={value?.disabled}
+                  style={{ height: 60, fontSize: 18 }}
+                >
+                  {value?.text || '?'}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+      {tableData.length > 0 && (
+        <div>
+          <h2>Team Table</h2>
+          <table border="1" cellPadding="8" style={{ width: '100%' }}>
+            {/* <thead>
           <tr>
-            <th>A</th>
-            <th>B</th>
+            <th>Column A</th>
+            <th>Column B</th>
           </tr>
-        </thead>
-        <tbody>
-          {tableData.map((row, idx) => (
-            <tr key={idx}>
-              <td>{row.A}</td>
-              <td>{row.B}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        </thead> */}
+            <tbody>
+              {tableData.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.A}</td>
+                  <td>{row.B}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+
+      )}
+
+
     </div>
   );
 };

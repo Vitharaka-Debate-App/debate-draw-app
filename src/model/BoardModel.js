@@ -1,42 +1,34 @@
 export default class BoardModel {
   constructor() {
-    this.boardSize = 4;
-    this.rows = 2;
-    this.xLabels = ['P', 'Q', 'R', 'S'];
-    this.yLabels = ['1', '2'];
-    this.currentPlayerId = 1;
-    this.revealed = [];
+    this.baseLabels = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B'];
+    this.letters = this.shuffle([...this.baseLabels]); // clone and shuffle
+    this.currentPlayer = 1;
     this.matchedPairs = new Set();
-    this.baseKeyToRow = {};
-    this.letters = this.shuffle([
-      '1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B',
-    ]);
   }
 
   shuffle(array) {
-    return [...array].sort(() => Math.random() - 0.5);
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array; // return the shuffled array
+  }
+
+  reshuffle() {
+    this.letters = this.shuffle([...this.baseLabels]);
+    this.currentPlayer = 1; // Reset to player 1 on reshuffle
+    this.matchedPairs.clear(); // Optional: clear matched pairs
   }
 
   getLetter(index) {
-    return this.letters[index];
+    return this.letters[index]; // safe access
+  }
+
+  getBaseKey(label) {
+    return label.slice(0, -1);
   }
 
   switchPlayer() {
-    this.currentPlayerId += 1;
-  }
-
-  isMatch(idx1, idx2) {
-    const l1 = this.letters[idx1];
-    const l2 = this.letters[idx2];
-    return l1 === l2 && l1 !== '*';
-  }
-
-  markMatched(label) {
-    const base = label.slice(0, -1);
-    this.matchedPairs.add(base);
-  }
-
-  isGameOver() {
-    return this.matchedPairs.size === 4;
+    this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
   }
 }
