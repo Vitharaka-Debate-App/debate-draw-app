@@ -1,8 +1,8 @@
 import React from 'react';
 
 const BoardView = ({ model, boardState, onCellClick, tableData }) => {
-  const columnLabels = ['P', 'Q', 'R', 'S'];
-  const rowLabels = ['1', '2'];
+  const columnLabels = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W'];
+  const rowLabels = ['1', '2', '3', '4'];
 
   return (
     <div style={{ padding: 20 }}>
@@ -11,7 +11,7 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
       {/* Column Headers */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '40px repeat(4, 80px)',
+        gridTemplateColumns: '40px repeat(8, 90px)',
         marginBottom: '10px',
         alignItems: 'center',
       }}>
@@ -20,23 +20,23 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
           <div key={idx} style={{ textAlign: 'center', fontWeight: 'bold' }}>{col}</div>
         ))}
       </div>
-
+        
       {/* Grid Rows with Row Labels */}
-      <div style={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
+      <div style={{ display: 'grid', gridTemplateRows: 'repeat(4, 1fr)' }}>
         {rowLabels.map((row, rowIndex) => (
           <div
             key={rowIndex}
             style={{
               display: 'grid',
-              gridTemplateColumns: '40px repeat(4, 80px)',
+              gridTemplateColumns: '40px repeat(8, 80px)',
               gap: '10px',
               alignItems: 'center',
               marginBottom: '10px',
             }}
           >
             <div style={{ textAlign: 'center', fontWeight: 'bold' }}>{row}</div>
-            {boardState.slice(rowIndex * 4, rowIndex * 4 + 4).map((value, colIndex) => {
-              const idx = rowIndex * 4 + colIndex;
+            {boardState.slice(rowIndex * 8, rowIndex * 8 + 8).map((value, colIndex) => {
+              const idx = rowIndex * 8 + colIndex;
               return (
                 <button
                   key={idx}

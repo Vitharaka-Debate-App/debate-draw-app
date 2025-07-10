@@ -11,7 +11,7 @@ function App() {
   const modelRef = useRef(new BoardModel());
 
   const [boardState, setBoardState] = useState(
-    Array(8).fill(null).map(() => ({ text: '', disabled: false }))
+    Array(32).fill(null).map(() => ({ text: '', disabled: false }))
   );
   const [tableData, setTableData] = useState([]);
 
@@ -27,7 +27,7 @@ function App() {
   const refreshGame = () => {
     modelRef.current.reshuffle();
     controllerRef.current.clickIndex = 1;
-    setBoardState(Array(8).fill(null).map(() => ({ text: '', disabled: false })));
+    setBoardState(Array(32).fill(null).map(() => ({ text: '', disabled: false })));
     setTableData([]);
   };
 
