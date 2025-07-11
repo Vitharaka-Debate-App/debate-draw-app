@@ -1,6 +1,7 @@
 export default class BoardModel {
   constructor() {
-    this.baseLabels = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B'];
+    this.baseLabels = Array.from({ length: 16 }, (_, i) => `${i + 1}A`)
+      .concat(Array.from({ length: 16 }, (_, i) => `${i + 1}B`));
     this.letters = this.shuffle([...this.baseLabels]); // clone and shuffle
     this.currentPlayer = 1;
     this.matchedPairs = new Set();
@@ -29,6 +30,7 @@ export default class BoardModel {
   }
 
   switchPlayer() {
-    this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
+    // this.currentPlayer = this.currentPlayer === 32 ? 2 : 1;
+    this.currentPlayer = this.currentPlayer === 32 ? 1 : this.currentPlayer + 1;
   }
 }
