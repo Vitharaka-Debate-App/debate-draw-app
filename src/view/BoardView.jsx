@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import LogoScreensaver from '../components/LogoScreensaver';
 import '../App.css'
+import animatedGif from '../assets/vwi2.gif';
 
 const BoardView = ({ model, boardState, onCellClick, tableData }) => {
   const columnLabels = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W'];
   const rowLabels = ['1', '2', '3', '4'];
   const [showToast, setShowToast] = useState(false);
   return (
-    <div style={{ display: 'flex', gap: '150px' }}>
+    <div style={{
+      display: 'flex',
+      gap: '150px',
+      paddingRight: tableData.length > 0 ? '200px' : '0',
+      transition: 'padding-right 0.5s ease',
+    }}>
 
-      <div style={{ paddingTop: '15%' }}>
+      <div style={{
+        paddingTop: '15%',
+        minWidth: '400px', // Prevent shrinking
+        transition: 'all 0.5s ease', // Smooth movement
+      }}>
         <div>
           <h1 style={{ color: '#eff1f5', paddingBottom: '30px' }}>Draw Board</h1>
 
@@ -122,11 +133,23 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
         {showToast && <ToastContainer />}
       </div>
 
-      <div>
+      <div
+        style={{
+          position: 'absolute',
+          top: '30px',          
+          right: '30px',        
+          opacity: tableData.length > 0 ? 1 : 0,
+          transition: 'opacity 0.6s ease-in-out',
+          padding: '10px',      
+          borderRadius: '10px', 
+          zIndex: 10,
+        }}
+      >
         {tableData.length > 0 && (
-          <div>
-            <h2  className="fade-in-cell"
-             style={{ color: '#fff', marginBottom: '10px' }}>Team Table</h2>
+          <div
+          >
+            <h2
+              style={{ color: '#e6e9ef', marginBottom: '10px', paddingBottom: '30px' }}>Team Table</h2>
             <table
               cellPadding="0"
               cellSpacing="0"
