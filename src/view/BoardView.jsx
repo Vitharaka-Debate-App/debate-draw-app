@@ -6,7 +6,7 @@ import '../App.css'
 import animatedGif from '../assets/vwi2.gif';
 
 const BoardView = ({ model, boardState, onCellClick, tableData }) => {
-  const columnLabels = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W'];
+  const columnLabels = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X'];
   const rowLabels = ['1', '2', '3', '4'];
   const [showToast, setShowToast] = useState(false);
   return (
@@ -28,7 +28,7 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
           {/* Column Headers */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '40px repeat(8, 90px)',
+            gridTemplateColumns: '40px repeat(9, 90px)',
             marginBottom: '10px',
             alignItems: 'center',
           }}>
@@ -51,7 +51,7 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
                 key={rowIndex}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '40px repeat(8, 80px)',
+                  gridTemplateColumns: '40px repeat(9, 80px)',
                   gap: '10px',
                   alignItems: 'center',
                   marginBottom: '10px',
@@ -64,11 +64,11 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
                   fontSize: '30px'
                 }}>{row}</div>
 
-                {boardState.slice(rowIndex * 8, rowIndex * 8 + 8).map((value, colIndex) => {
-                  const idx = rowIndex * 8 + colIndex;
+                {boardState.slice(rowIndex * 9, rowIndex * 9 + 9).map((value, colIndex) => {
+                  const idx = rowIndex * 9 + colIndex;
 
                   const letterCoord = `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`;
-                  const columnLabels = Array.from({ length: 8 }, (_, i) => String.fromCharCode(80 + i));
+                  const columnLabels = Array.from({ length: 9 }, (_, i) => String.fromCharCode(80 + i));
                   const coordText = `(${columnLabels[colIndex]},${rowIndex + 1})`;
 
                   return (
