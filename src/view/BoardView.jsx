@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import LogoScreensaver from '../components/LogoScreensaver';
-import '../App.css'
-import animatedGif from '../assets/vwi2.gif';
+import '../App.css';
+import { ROW_COUNT, COLUMN_COUNT, COLUMN_LABELS } from '../configs/gridConfig';
 
 const BoardView = ({ model, boardState, onCellClick, tableData }) => {
-  const columnLabels = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X'];
-  const rowLabels = ['1', '2', '3', '4'];
+  const columnLabels = COLUMN_LABELS;
+  const rowLabels = Array.from({ length: ROW_COUNT }, (_, i) => `${i + 1}`);
   const [showToast, setShowToast] = useState(false);
+
   return (
     <div style={{
       display: 'flex',
@@ -16,42 +16,40 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
       paddingRight: tableData.length > 0 ? '200px' : '0',
       transition: 'padding-right 0.5s ease',
     }}>
-
       <div style={{
         paddingTop: '15%',
-        minWidth: '400px', // Prevent shrinking
-        transition: 'all 0.5s ease', // Smooth movement
+        minWidth: '400px',
+        transition: 'all 0.5s ease',
       }}>
         <div>
-          <h1 style={{ color: '#eff1f5', paddingBottom: '30px' }}>Draw Board</h1>
+          <h1 style={{ color: '#eff1f5', paddingBottom: '60px' }}>Draw Board</h1>
 
           {/* Column Headers */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '40px repeat(9, 90px)',
+            gridTemplateColumns: `40px repeat(${COLUMN_COUNT}, 90px)`,
             marginBottom: '10px',
             alignItems: 'center',
           }}>
-            <div></div> {/* Empty top-left cell */}
+            <div></div>
             {columnLabels.map((col, idx) => (
               <div key={idx} style={{
                 textAlign: 'center',
                 fontWeight: 'bold',
                 color: '#e6e9ef',
                 fontSize: '30px'
-
               }}>{col}</div>
             ))}
           </div>
 
-          {/* Grid Rows with Row Labels */}
-          <div style={{ display: 'grid', gridTemplateRows: 'repeat(4, 1fr)' }}>
+          {/* Grid Rows */}
+          <div style={{ display: 'grid', gridTemplateRows: `repeat(${ROW_COUNT}, 1fr)` }}>
             {rowLabels.map((row, rowIndex) => (
               <div
                 key={rowIndex}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '40px repeat(9, 80px)',
+                  gridTemplateColumns: `40px repeat(${COLUMN_COUNT}, 80px)`,
                   gap: '10px',
                   alignItems: 'center',
                   marginBottom: '10px',
@@ -64,11 +62,8 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
                   fontSize: '30px'
                 }}>{row}</div>
 
-                {boardState.slice(rowIndex * 9, rowIndex * 9 + 9).map((value, colIndex) => {
-                  const idx = rowIndex * 9 + colIndex;
-
-                  const letterCoord = `${String.fromCharCode(65 + colIndex)}${rowIndex + 1}`;
-                  const columnLabels = Array.from({ length: 9 }, (_, i) => String.fromCharCode(80 + i));
+                {boardState.slice(rowIndex * COLUMN_COUNT, rowIndex * COLUMN_COUNT + COLUMN_COUNT).map((value, colIndex) => {
+                  const idx = rowIndex * COLUMN_COUNT + colIndex;
                   const coordText = `(${columnLabels[colIndex]},${rowIndex + 1})`;
 
                   return (
@@ -90,7 +85,6 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
                           showCancelButton: true,
                           confirmButtonText: "Yes",
                           cancelButtonText: "No",
-                          reverseButtons: true
                         }).then((result) => {
                           if (result.isConfirmed) {
                             onCellClick(idx)
@@ -125,72 +119,58 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
                     </button>
                   );
                 })}
-
               </div>
             ))}
           </div>
         </div>
-        {showToast && <ToastContainer />}
+         {showToast && <ToastContainer />}
       </div>
 
+      {/* Team Table */}
       <div
         style={{
           position: 'absolute',
-          top: '30px',          
-          right: '30px',        
+          top: '30px',
+          right: '30px',
           opacity: tableData.length > 0 ? 1 : 0,
           transition: 'opacity 0.6s ease-in-out',
-          padding: '10px',      
-          borderRadius: '10px', 
+          padding: '10px',
+          borderRadius: '10px',
           zIndex: 10,
         }}
       >
         {tableData.length > 0 && (
-          <div
-          >
-            <h2
-              style={{ color: '#e6e9ef', marginBottom: '10px', paddingBottom: '30px' }}>Team Table</h2>
+          <div>
+            <h2 style={{ color: '#e6e9ef', marginBottom: '10px', paddingBottom: '30px' }}>Team Table</h2>
             <table
               cellPadding="0"
               cellSpacing="0"
               style={{
                 borderCollapse: 'separate',
                 borderSpacing: '20px 15px',
-                width: '100%'
+                width: '100%',
               }}
             >
               <tbody>
                 {tableData.map((row, index) => (
-                  <tr key={index} style={{ height: '10px', marginBottom: '100px' }}>
+                  <tr key={index}>
                     {row.A &&
-                      <td
-                        className="fade-in-cell"
-                        style={{
-                          backgroundColor: '#eff1f5',
-                          width: '200px',
-                          height: '10px',
-                          textAlign: 'center',
-                          verticalAlign: 'middle',
-                          borderRadius: '6px',
-                          margin: '10px'
-                        }}
-                      >
+                      <td className="fade-in-cell" style={{
+                        backgroundColor: '#eff1f5',
+                        width: '200px',
+                        textAlign: 'center',
+                        borderRadius: '6px'
+                      }}>
                         <h3 style={{ margin: 0 }}>{row.A}</h3>
                       </td>
                     }
                     {row.B &&
-                      <td
-                        className="fade-in-cell"
-                        style={{
-                          backgroundColor: '#eff1f5',
-                          width: '200px',
-                          height: '10px',
-                          textAlign: 'center',
-                          verticalAlign: 'middle',
-                          borderRadius: '6px',
-                          margin: '10px'
-                        }}
-                      >
+                      <td className="fade-in-cell" style={{
+                        backgroundColor: '#eff1f5',
+                        width: '200px',
+                        textAlign: 'center',
+                        borderRadius: '6px'
+                      }}>
                         <h3 style={{ margin: 0 }}>{row.B}</h3>
                       </td>
                     }
@@ -201,8 +181,6 @@ const BoardView = ({ model, boardState, onCellClick, tableData }) => {
           </div>
         )}
       </div>
-
-
     </div>
   );
 };
