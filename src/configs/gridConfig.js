@@ -3,7 +3,7 @@
 export const ROW_COUNT = 2;
 export const COLUMN_COUNT = 5;
 
-export const COLUMN_LABELS = ['P', 'Q', 'R', 'S','T']; // Length must be COLUMN_COUNT
+export const COLUMN_LABELS = ['P', 'Q', 'R', 'X','N']; // Length must be COLUMN_COUNT
 
 export const TOTAL_CELLS = ROW_COUNT * COLUMN_COUNT;
 
