@@ -113,10 +113,10 @@ function App() {
         paddingLeft: '70px'
       }}>
         <div style={{ display: 'flex', gap: '40px', marginBottom: '5px' }}>
-          <img src={sltcLogo} alt="SLTC" style={{ width: '200px' }} />
-          <img src={mediaUnitLogo} alt="Media Unit" style={{ width: '200px', paddingBottom: '17px' }} />
+          <img src={sltcLogo} alt="SLTC" style={{ width: '300px', paddingBottom: '19px' }} />
+          <img src={mediaUnitLogo} alt="Media Unit" style={{ width: '350px', paddingBottom: '17px' }} />
         </div>
-        <div style={{ fontSize: '14px', color: '#fff', marginTop: 'auto',paddingBottom: '90px' }}>
+        <div style={{ fontSize: '14px', color: '#fff', marginTop: 'auto',paddingBottom: '36px' }}>
           © {new Date().getFullYear()} Rukshan Ranasinghe (DeW)
         </div>
       </div>
